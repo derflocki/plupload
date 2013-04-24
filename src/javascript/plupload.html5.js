@@ -322,6 +322,21 @@
 					if (fileNames[file.name] && plupload.ua.safari && plupload.ua.windows) {
 						continue;
 					}
+                    // Gecko allows Drag and Drop of Folders
+                    var isFileReadable = false;
+                    var reader = new FileReader();
+                    if (E = File.prototype.slice || File.prototype.webkitSlice || File.prototype.mozSlice) {
+                    	blob =  E.call(file, 0, 1);
+                    	try {
+                    		reader.readAsArrayBuffer(blob);
+                    		isFileReadable = true;
+                    	} catch(e) {
+                    		//File could be read
+                    	}
+                    }
+                    if(!isFileReadable) {
+                    	continue;
+                    }
 					fileNames[file.name] = true;
 
 					// Store away gears blob internally
